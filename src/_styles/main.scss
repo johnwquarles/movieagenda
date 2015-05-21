@@ -11,7 +11,6 @@
 }
 
 h1 {
-  background-color: black;
   color: white;
   display: inline-block;
   font-family: 'Fugaz One', cursive;
@@ -20,12 +19,24 @@ h1 {
   padding-left: 48px;
 }
 
+.clear-this {
+	clear: both;
+}
+
 .header h1 {
   background: url(http://a.fsdn.com/allura/p/popcornjs/icon) no-repeat left center;
 }
 
 .login-page {
 	font-family: 'Crete Round', serif;
+}
+
+.reset-password form {
+	font-family: 'Crete Round', serif;
+}
+
+#newpass {
+	margin-bottom: 30px;
 }
 
 label {
@@ -39,26 +50,41 @@ label {
 
 .login-page .btn-group {
 	margin-top: 24px;
-	font-family: 'Fugaz One', cursive;
+  font-family: 'Crete Round', serif;
 }
 
 .login-page h1, .reset-password h1 {
-	color: red;
+	color: white;
 	font-size: 24px;
 	margin-top: 0;
 	padding: 0;
+	font-family: 'Crete Round', serif;
+}
+.crumbs {
+	display: block;
 }
 
-.reset-password.col-md-6, .login-page.col-md-6 {
-	text-align: center
+.crumbs-right {
+	float: right;
+	display: inline-block;
+}
+
+.crumbs-left {
+  float: left;
+	display: inline-block;
+}
+
+.crumbs {
+	color: white;
+  margin: 5px 12px;
+  font-family: 'Crete Round', serif;
+  font-size: 18px;
 }
 
 button.doLogout {
-	color: white;
 	background-color: rgba(0,0,0,0);
 	border: 0;
 	text-decoration: underline;
-	margin: 5px;
 }
 
 .title {

@@ -25,6 +25,7 @@ fb.onAuth(function(authData) {
 
 if (window.location.pathname === "/") {
 	tableLoad();
+	$('.crumbs-left').append($(`<p>Welcome, ${fb.getAuth().password.email.split("@")[0]}!</p>`))
 }
 
 $('.login-page form').submit(function() {
@@ -58,8 +59,8 @@ $('.doRegister').click(function(event) {
 
 $('.reset-password form').submit(function() {
 	var email = fb.getAuth().password.email;
-	var oldPw = $('.reset-password input:nth-child(1)').val();
-	var newPw = $('.reset-password input:nth-child(2)').val();
+	var oldPw = $('#oldpass').val();
+	var newPw = $('#newpass').val();
 
 	fb.changePassword({
 		email: email,

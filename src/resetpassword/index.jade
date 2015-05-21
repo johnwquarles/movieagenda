@@ -1,14 +1,21 @@
 extends ../_partials/_layout.jade
 
+block logout
+  .crumbs
+    .crumbs-left
+    .crumbs-right
+      button.doLogout Log Out
+  .clear-this
+
 block content
   .reset-password.col-md-6.col-md-offset-3
     h1 Reset Password
     form
-    	.form-group
+      .form-group
         label(for="oldpass") Current Password
         input.form-control(id="oldpass" type="password", placeholder="Current Password")
       .form-group
         label(for="newpass") New Password
         input.form-control(id="newpass" type="password", placeholder="New Password")
       .form-group
-        input.form-control(type="submit", value="Reset Password")
+        input.btn.btn-default.btn-warning(type="submit", value="Reset Password")
