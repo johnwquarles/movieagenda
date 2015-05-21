@@ -1,18 +1,1 @@
 extends ./_partials/_layout.jade
-
-block logout
-  .crumbs
-    .crumbs-left
-    .crumbs-right
-      button.doLogout Log Out
-  .clear-this
-
-block content
-  .row
-    .forms-wrapper.col-md-4.col-sm-12
-      form
-        p Movie lookup
-        input.textfield(type='text')
-        button.submit.btn.btn-primary.btn-block Search
-    .movie-info.col-md-8.col-sm-12
-  .movie-table-container.table-responsive

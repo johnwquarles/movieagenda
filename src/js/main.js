@@ -15,15 +15,15 @@ var TMDB_POSTER_BASE = "http://image.tmdb.org/t/p/w500";
 fb.onAuth(function(authData) {
 	if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
 		window.location = "/resetpassword";
-	} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/") {
-	  window.location = "/";
+	} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/index/") {
+	  window.location = "/index";
 	} else if (!authData && window.location.pathname !== "/login/"){
 	  window.location = "/login";
 	}
 	clearLoginForm();
 });
 
-if (window.location.pathname === "/") {
+if (window.location.pathname === "/index/") {
 	tableLoad();
 	$('.crumbs-left').append($(`<p>Welcome, ${fb.getAuth().password.email.split("@")[0]}!</p>`))
 }
@@ -197,24 +197,18 @@ function makeMovieInfo(obj) {
   var $info_container = $('<div></div>');
   $info_container.addClass("info-container");
   var $title = $("<p>" + obj.Title + "</p>");
+  var $info = $(makeRatingImgText(obj)+ "<span " + makeMetaRatingText(obj) + "</span><p class='imdb-rating'>" + obj.imdbRating + "</p></span><span>Year: " + obj.Year + "</span>");
   $title.addClass("title");
-  var $year = $("<p>" + obj.Year + "</p>");
   var $director = $("<p>Director: " + obj.Director + "</p>");
   var $plot = $("<p>" + obj.Plot + "</p>");
-  var $rating = $("<p>" + obj.Rated + "</p>");
   var $runtime = $("<p>" + obj.Runtime + "</p>");
   var $add_button = $("<button>Add to my list</button>");
   $add_button.addClass("add-button btn btn-lg btn-success pull-right");
-  //if (obj.Poster !== "N/A") {
-  //  var $poster = $("<img src='" + obj.Poster + "'></img>");
-  //  $poster.addClass("pull-left");
-  //  $info_container.append($poster)
-  //}
   
   var $poster = $("<img src='" + obj.Poster + "'></img>");
   $poster.addClass("pull-left");
   $info_container.append($poster);
-  $info_container.append($title).append($year).append($director).append($plot).append($runtime).append($add_button);
+  $info_container.append($title).append($info).append($director).append($plot).append($runtime).append($add_button);
   return $info_container;
 }
 
@@ -229,7 +223,7 @@ function makeTableHeader() {
   var $table= $("<table></table>");
   $table.addClass("table table-striped");
   var $header_row = $("<tr></tr>");
-  var $header_elements = $("<th></th><th>Title</th><th>Year</th><th>Rating</th><th></th>");
+  var $header_elements = $("<th></th><th>Title</th><th>Year</th><th>Rating</th><th>Metascore</th><th>imdb</th><th></th>");
   $header_row.append($header_elements);
   $table.append($header_row);
   return $table;
@@ -240,10 +234,44 @@ function makeTableRow(obj, id) {
   var $poster_td;
   $row.attr("data_id", id || obj.data_id);
   obj.Poster === "N/A" ? $poster_td = $("<td><img src='" + "https://www.utopolis.lu/bundles/utopoliscommon/images/movies/movie-placeholder.jpg" + "'></td>") : $poster_td = $("<td><img src='" + obj.Poster + "'></src>");
-  var $other_rows = $("<td>" + obj.Title + "</td><td>" + obj.Year + "</td><td>" + obj.Rated + "</td><td><button>Watched</button></td>");
+  var other_rows = "<td>" + obj.Title + "</td><td>" + obj.Year + "</td><td>";
+  other_rows += makeRatingImgText(obj);
+  other_rows += "</td><td><p " + makeMetaRatingText(obj) + "</p></td>";
+  other_rows += "<td><p class='imdb-rating'>" + obj.imdbRating + "</p></td>";
+  other_rows += "<td><button>Watched</button></td>";
+  var $other_rows = $(other_rows);
   $other_rows.find("button").addClass("btn btn-lg btn-danger");
   $row.append($poster_td).append($other_rows);
   return $row;
+}
+
+function makeMetaRatingText(obj) {
+	var return_str = "class='metascore ";
+	if (parseInt(obj.Metascore) > 60) {
+  	return_str += "meta-positive";
+  } else if (parseInt(obj.Metascore) > 39) {
+  	return_str += "meta-neutral";
+  } else if (parseInt(obj.Metascore) >= 0) {
+  	return_str += "meta-negative";
+  }
+  return_str += "'>"+ obj.Metascore
+  return return_str;
+}
+
+function makeRatingImgText(obj) {
+	if (obj.Rated === "G") {
+  	return "<img class='rating-img' src='../images/G.svg'>";
+  } else if (obj.Rated === "PG") {
+  	return "<img class='rating-img' src='../images/PG.svg'>";
+  } else if (obj.Rated === "PG-13") {
+  	return "<img class='rating-img' src='../images/PG-13.svg'>";
+  } else if (obj.Rated === "R") {
+  	return "<img class='rating-img' src='../images/R.svg'>";
+  } else if (obj.Rated === "NC-17") {
+  	return "<img class='rating-img' src='../images/NC-17.svg'>";
+  } else {
+  	return "<span>N/A</span>"
+  }
 }
 
 function writeToFirebase(obj) {

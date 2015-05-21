@@ -81,6 +81,85 @@ label {
   font-size: 18px;
 }
 
+.metascore {
+  background-color: rgb(0, 0, 0);
+	background-attachment: scroll;
+	background-clip: border-box;
+	background-image: none;
+	background-origin: padding-box;
+	background-size: auto;
+	border-bottom-color: rgb(204, 204, 204);
+	border-bottom-style: solid;
+	border-bottom-width: 0px;
+	border-collapse: collapse;
+	border-image-outset: 0px;
+	border-image-repeat: stretch;
+	border-image-slice: 100%;
+	border-image-source: none;
+	border-image-width: 1;
+	border-left-color: rgb(204, 204, 204);
+	border-left-style: solid;
+	border-left-width: 0px;
+	border-right-color: rgb(204, 204, 204);
+	border-right-style: solid;
+	border-right-width: 0px;
+	border-top-color: rgb(204, 204, 204);
+	border-top-style: solid;
+	border-top-width: 0px;
+	color: rgb(255, 255, 255);
+	display: inline-block;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 17px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: bold;
+	height: 34px;
+	line-height: 34px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	outline-color: rgb(255, 255, 255);
+	outline-style: none;
+	outline-width: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	width: 34px;
+}
+
+.meta-positive {
+	background-color: rgb(102, 204, 51);
+}
+
+.meta-neutral {
+	background-color: rgb(255, 204, 51);
+}
+
+.meta-negative {
+	background-color: rgb(255, 0, 0);
+}
+
+.imdb-rating {
+  background-position: -180px -71px;
+  width: 66px;
+  height: 66px;
+  line-height: 66px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 15px;
+  font-weight: bold;
+  color: black;
+  font-family: tahoma;
+  //float: left;
+  background-image: url(http://ia.media-imdb.com/images/G/01/imdb/images/title/titlePageSprite-1214724556._V_.png);
+}
+
 button.doLogout {
 	background-color: rgba(0,0,0,0);
 	border: 0;
@@ -111,7 +190,7 @@ button.doLogout {
   margin-bottom: 20px;
 }
 
-.movie-info img {
+.movie-info img:not(.rating-img) {
   width: 162px;
   height: 240px;
   margin-right: 20px;
@@ -143,7 +222,7 @@ button:not(.login-page button) {
   box-shadow: -5px 6px 12px -4px rgba(0,0,0,0.75);
 }
 
-table img {
+table img:not(.rating-img) {
   width: 121px;
   height: 180px;
   border-radius: 5px;
@@ -164,6 +243,23 @@ table img {
   box-shadow: -5px 6px 12px -4px rgba(0,0,0,0.75); 
 }
 
+table .rating-img, .movie-info img.rating-img {
+	height: 30%;
+	width: 30%;
+	position: relative;
+  top: -2px;
+}
+
+.movie-info img.rating-img {
+	height: 34px;
+	width: 34px;
+	margin-right: 10px;
+}
+
+.movie-info span.metascore {
+	margin-right: 6px;
+}
+
 table img:hover {
   cursor: pointer;
 
@@ -172,9 +268,13 @@ table img:hover {
 }
 
 table th {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 800;
   font-family: 'Crete Round', serif;
+}
+
+.table>tbody>tr>th:last-child {
+	padding-left: 160px;
 }
 
 body {
@@ -194,6 +294,10 @@ body {
 
 div.movie-table-container.table-responsive {
   border-radius: 10px;
+}
+
+th, table {
+	text-align: center;
 }
 
 table tbody tr td:not(:first-of-type) {
