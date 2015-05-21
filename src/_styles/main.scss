@@ -260,7 +260,7 @@ table .rating-img, .movie-info img.rating-img {
 	margin-right: 6px;
 }
 
-table img:hover {
+table img:hover:not(.rating-img) {
   cursor: pointer;
 
   -webkit-transform: scale(1.1);
