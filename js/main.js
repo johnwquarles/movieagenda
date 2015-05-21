@@ -15,11 +15,11 @@ var TMDB_SEARCH_URL = "http://api.themoviedb.org/3/search/movie";
 var TMDB_POSTER_BASE = "http://image.tmdb.org/t/p/w500";
 
 fb.onAuth(function (authData) {
-  if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/moviepage-auth/resetpassword") {
+  if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/moviepage-auth/resetpassword/") {
     window.location = "resetpassword";
-  } else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/moviepage-auth/index") {
+  } else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/moviepage-auth/index/") {
     window.location = "index";
-  } else if (!authData && window.location.pathname !== "/moviepage-auth/login") {
+  } else if (!authData && window.location.pathname !== "/moviepage-auth/login/") {
     window.location = "login";
   }
   clearLoginForm();
