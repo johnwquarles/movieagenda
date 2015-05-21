@@ -199,7 +199,7 @@ function makeMovieInfo(obj) {
   var $info_container = $("<div></div>");
   $info_container.addClass("info-container");
   var $title = $("<p>" + obj.Title + "</p>");
-  var $info = $(makeRatingImgText(obj) + "<span " + makeMetaRatingText(obj) + "</span><p class='imdb-rating'>" + obj.imdbRating + "</p></span><span>&nbsp&nbsp&nbsp&nbspRuntime: " + obj.Runtime + "</span>");
+  var $info = $(makeRatingImgText(obj) + "<span " + makeMetaRatingText(obj) + "</span><p class='imdb-rating'>" + obj.imdbRating + "</p></span><span>Year: " + obj.Year + "</span><span>&nbsp&nbsp&nbsp&nbspRuntime: " + obj.Runtime + "</span>");
   $title.addClass("title");
   var $director = $("<p>Director: " + obj.Director + "</p>");
   var $plot = $("<p>" + obj.Plot + "</p>");
