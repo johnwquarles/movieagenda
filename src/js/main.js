@@ -197,18 +197,17 @@ function makeMovieInfo(obj) {
   var $info_container = $('<div></div>');
   $info_container.addClass("info-container");
   var $title = $("<p>" + obj.Title + "</p>");
-  var $info = $(makeRatingImgText(obj)+ "<span " + makeMetaRatingText(obj) + "</span><p class='imdb-rating'>" + obj.imdbRating + "</p></span><span>Year: " + obj.Year + "</span>");
+  var $info = $(makeRatingImgText(obj)+ "<span " + makeMetaRatingText(obj) + "</span><p class='imdb-rating'>" + obj.imdbRating + "</p></span><span>Year: " + obj.Year + "</span><span>&nbsp&nbsp&nbsp&nbspRuntime: " + obj.Runtime + "</span>");
   $title.addClass("title");
   var $director = $("<p>Director: " + obj.Director + "</p>");
   var $plot = $("<p>" + obj.Plot + "</p>");
-  var $runtime = $("<p>" + obj.Runtime + "</p>");
   var $add_button = $("<button>Add to my list</button>");
   $add_button.addClass("add-button btn btn-lg btn-success pull-right");
   
   var $poster = $("<img src='" + obj.Poster + "'></img>");
   $poster.addClass("pull-left");
   $info_container.append($poster);
-  $info_container.append($title).append($info).append($director).append($plot).append($runtime).append($add_button);
+  $info_container.append($title).append($info).append($director).append($plot).append($add_button);
   return $info_container;
 }
 
