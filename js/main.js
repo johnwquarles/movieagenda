@@ -16,11 +16,11 @@ var TMDB_POSTER_BASE = "http://image.tmdb.org/t/p/w500";
 
 fb.onAuth(function (authData) {
   if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
-    window.location = "/resetpassword";
+    window.location = "resetpassword";
   } else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/index/") {
-    window.location = "/index";
+    window.location = "index";
   } else if (!authData && window.location.pathname !== "/login/") {
-    window.location = "/login";
+    window.location = "login";
   }
   clearLoginForm();
 });
