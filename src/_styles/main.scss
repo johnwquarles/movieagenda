@@ -24,7 +24,7 @@ h1 {
 }
 
 .header h1 {
-  background: url(http://a.fsdn.com/allura/p/popcornjs/icon) no-repeat left center;
+  background: url('../images/icon') no-repeat left center;
 }
 
 .login-page {
@@ -157,7 +157,7 @@ label {
   color: black;
   font-family: tahoma;
   //float: left;
-  background-image: url(http://ia.media-imdb.com/images/G/01/imdb/images/title/titlePageSprite-1214724556._V_.png);
+  background-image: url('../images/titlePageSprite-1214724556._V_.png');
 }
 
 button.doLogout {
