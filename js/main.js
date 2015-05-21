@@ -16,16 +16,16 @@ var TMDB_POSTER_BASE = "http://image.tmdb.org/t/p/w500";
 
 fb.onAuth(function (authData) {
   if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/moviepage-auth/resetpassword/") {
-    window.location = "resetpassword";
+    window.location = "resetpassword/";
   } else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/moviepage-auth/index/") {
-    window.location = "index";
+    window.location = "index/";
   } else if (!authData && window.location.pathname !== "/moviepage-auth/login/") {
-    window.location = "login";
+    window.location = "login/";
   }
   clearLoginForm();
 });
 
-if (window.location.pathname === "/index/") {
+if (window.location.pathname === "/moviepage-auth/index/") {
   tableLoad();
   $(".crumbs-left").append($("<p>Welcome, " + fb.getAuth().password.email.split("@")[0] + "!</p>"));
 }
