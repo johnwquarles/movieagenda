@@ -1,0 +1,18 @@
+extends ../_partials/_layout.jade
+
+block content
+  .login-page.col-md-6.col-md-offset-3
+    h1 Welcome to MovieAgenda! Please log in or sign up.
+    form
+      .form-group
+        label(for="email") Email Address
+        input.form-control(id="email" placeholder="email" type="email" required)
+      .form-group
+        label(for="password") Password
+        input.form-control(id="password" placeholder="password" type="password")
+      .form-group
+        .button-group-container
+          .btn-group.btn-group-lg(role="group")
+            input.btn.btn-default(type="submit" value="Login")
+            button.btn.btn-default.doRegister Register
+            button.btn.btn-default.doResetPassword Reset Password

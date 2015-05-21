@@ -1,0 +1,15 @@
+extends ./_partials/_layout.jade
+
+block logout
+  .logout-btn.pull-right
+    button.doLogout Log Out
+
+block content
+  .row
+    .forms-wrapper.col-md-4.col-sm-12
+      form
+        p Movie lookup
+        input.textfield(type='text')
+        button.submit.btn.btn-primary.btn-block Search
+    .movie-info.col-md-8.col-sm-12
+  .movie-table-container.table-responsive

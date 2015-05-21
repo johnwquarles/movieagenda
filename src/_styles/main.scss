@@ -1,0 +1,228 @@
+.forms-wrapper, .movie-info {
+  font-family: 'Crete Round', serif;
+}
+
+.forms-wrapper {
+  text-align: center;
+}
+
+.header {
+  text-align: center;
+}
+
+h1 {
+  background-color: black;
+  color: white;
+  display: inline-block;
+  font-family: 'Fugaz One', cursive;
+  font-size: 90px;
+  margin: 40px 0 40px;
+  padding-left: 48px;
+}
+
+.header h1 {
+  background: url(http://a.fsdn.com/allura/p/popcornjs/icon) no-repeat left center;
+}
+
+.login-page {
+	font-family: 'Crete Round', serif;
+}
+
+label {
+	color: red;
+	font-family: 'Fugaz One', cursive;
+}
+
+.button-group-container {
+	text-align: center;
+}
+
+.login-page .btn-group {
+	margin-top: 24px;
+	font-family: 'Fugaz One', cursive;
+}
+
+.login-page h1, .reset-password h1 {
+	color: red;
+	font-size: 24px;
+	margin-top: 0;
+	padding: 0;
+}
+
+.reset-password.col-md-6, .login-page.col-md-6 {
+	text-align: center
+}
+
+button.doLogout {
+	color: white;
+	background-color: rgba(0,0,0,0);
+	border: 0;
+	text-decoration: underline;
+	margin: 5px;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 28px;
+}
+
+.textfield {
+  height: 32px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  width: 100%;
+}
+
+.error {
+  font-size: 40px;
+  background-color: red;
+  position: relative;
+  top: 40px;
+  display: block;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.movie-info img {
+  width: 162px;
+  height: 240px;
+  margin-right: 20px;
+  -webkit-box-shadow: -5px 6px 12px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: -5px 6px 12px -4px rgba(0,0,0,0.75);
+  box-shadow: -5px 6px 12px -4px rgba(0,0,0,0.75);
+}
+
+.row {
+  margin: 0;
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+forms-wrapper {
+  height: 100%;
+}
+
+form p {
+  font-size: 28px;
+  font-family: 'Hind', sans-serif;
+}
+
+button:not(.login-page button) {
+  -webkit-box-shadow: -5px 6px 12px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: -5px 6px 12px -4px rgba(0,0,0,0.75);
+  box-shadow: -5px 6px 12px -4px rgba(0,0,0,0.75);
+}
+
+table img {
+  width: 121px;
+  height: 180px;
+  border-radius: 5px;
+  margin-left: 5px;
+
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;  vertical-align: top;
+
+  -webkit-box-shadow: -5px 6px 12px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: -5px 6px 12px -4px rgba(0,0,0,0.75);
+  box-shadow: -5px 6px 12px -4px rgba(0,0,0,0.75); 
+}
+
+table img:hover {
+  cursor: pointer;
+
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+table th {
+  font-size: 24px;
+  font-weight: 800;
+  font-family: 'Crete Round', serif;
+}
+
+body {
+  background-image: url('../images/background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.movie-info, .forms-wrapper {
+  background-color: white;
+  margin-bottom: 20px;
+}
+
+.movie-table-container {
+  background-color: white;
+}
+
+div.movie-table-container.table-responsive {
+  border-radius: 10px;
+}
+
+table tbody tr td:not(:first-of-type) {
+  vertical-align: middle;
+  font-size: 22px;
+  font-family: 'Hind', sans-serif;
+}
+
+table tbody tr td:nth-of-type(2) {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.footer {
+  text-align: center;
+}
+
+.footer img {
+  height: 57px;
+  width: 257px;
+}
+
+.movie-info:empty {
+  display: none;
+}
+
+/* Underline From Left */
+.header h1.hvr-underline-from-left {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow: hidden;
+}
+.header h1.hvr-underline-from-left:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 100%;
+  bottom: 0;
+  background: #2098d1;
+  height: 4px;
+  -webkit-transition-property: right;
+  transition-property: right;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.header h1.hvr-underline-from-left:hover:before, .hvr-underline-from-left:focus:before, .hvr-underline-from-left:active:before {
+  right: 0;
+}
