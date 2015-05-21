@@ -77,6 +77,7 @@ $('.reset-password form').submit(function() {
 });
 
 $('.doResetPassword').click(function() {
+	event.preventDefault();
 	var email = $('.login-page input[type="email"]').val();
 
 	fb.resetPassword({
