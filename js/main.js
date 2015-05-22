@@ -16,17 +16,17 @@ var TMDB_POSTER_BASE = "http://image.tmdb.org/t/p/w500";
 var TRAILER_API_URL = "http://crossorigin.me/http://api.traileraddict.com/?film=";
 
 fb.onAuth(function (authData) {
-  if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
-    window.location = "/resetpassword";
-  } else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/index/") {
-    window.location = "/index";
-  } else if (!authData && window.location.pathname !== "/login/") {
-    window.location = "/login";
+  if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/moviepage-auth/resetpassword/") {
+    window.location = "/moviepage-auth/resetpassword";
+  } else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/moviepage-auth/index/") {
+    window.location = "/moviepage-auth/index";
+  } else if (!authData && window.location.pathname !== "/moviepage-auth/login/") {
+    window.location = "/moviepage-auth/login";
   }
   clearLoginForm();
 });
 
-if (window.location.pathname === "/index/") {
+if (window.location.pathname === "/moviepage-auth/index/") {
   tableLoad();
   $(".crumbs-left").append($("<p>Welcome, " + fb.getAuth().password.email.split("@")[0] + "!</p>"));
 }
