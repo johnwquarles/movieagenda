@@ -184,7 +184,8 @@ $('.movie-info, .movie-table-container').on('click', 'button.trailer-btn', funct
 $MOVIETABLECONTAINER.on('click', 'img', function(event) {
   event.preventDefault();
   var id = $(this).closest('tr').attr('data_id');
-  $.get(`${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist/${id}.json`, reClick, "jsonp");
+  var token = fb.getAuth().token;
+  $.get(`${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist/${id}.json?auth=${token}`, reClick, "jsonp");
 })
 
 // reClick is for reloading stored movies into the movie info view; don't need to rewrite the poster url.
@@ -291,19 +292,19 @@ function makeRatingImgText(obj) {
 }
 
 function writeToFirebase(obj) {
-  $.post(`${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist.json`, JSON.stringify(obj), function(response) {
+  $.post(`${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist.json?auth=${fb.getAuth().token}`, JSON.stringify(obj), function(response) {
     obj.data_id = response.name;
     addToTable(obj);
   })
 }
 
 function deleteFromFirebase(id) {
-  var deleteUrl = `${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist/${id}.json`;
+  var deleteUrl = `${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist/${id}.json?auth=${fb.getAuth().token}`;
   $.ajax({url: deleteUrl, type: 'DELETE'});
 }
 
 function tableLoad() {
-  $.get(`${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist.json`, function(db_data) {
+  $.get(`${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist.json?auth=${fb.getAuth().token}`, function(db_data) {
     db_data && _(db_data).forEach(function(value, key) {
       addToTable(value, key);
     }).value();
