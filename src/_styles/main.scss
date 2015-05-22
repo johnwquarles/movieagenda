@@ -1,3 +1,8 @@
+.fancybox-inner {
+  font-family: 'Crete Round', serif;
+  text-align: center;
+}
+
 .forms-wrapper, .movie-info {
   font-family: 'Crete Round', serif;
 }
@@ -257,7 +262,13 @@ table .rating-img, .movie-info img.rating-img {
 }
 
 .movie-info span.metascore {
+	margin-left: 12px;
 	margin-right: 6px;
+}
+
+.movie-info button.trailer-btn {
+	position: relative;
+	top: -2px;
 }
 
 table img:hover:not(.rating-img) {

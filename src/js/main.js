@@ -11,6 +11,7 @@ var poster_url;
 var TMDB_API_KEY = "?api_key=3d3efaa01fcce58b6e8758f0f9d9c93d";
 var TMDB_SEARCH_URL = "http://api.themoviedb.org/3/search/movie";
 var TMDB_POSTER_BASE = "http://image.tmdb.org/t/p/w500";
+var TRAILER_API_URL = "http://crossorigin.me/http://api.traileraddict.com/?film=";
 
 fb.onAuth(function(authData) {
 	if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
@@ -156,7 +157,7 @@ $MOVIEINFO.on('click', '.add-button', function(event) {
   writeToFirebase(movie_info_obj);
 })
 
-$MOVIETABLECONTAINER.on('click', 'button', function(event) {
+$MOVIETABLECONTAINER.on('click', 'button.watched-btn', function(event) {
   event.preventDefault();
   deleteFromFirebase($(this).closest('tr').attr('data_id'));
   $(this).closest('tr').fadeOut(500, function() {
@@ -165,6 +166,19 @@ $MOVIETABLECONTAINER.on('click', 'button', function(event) {
       $('table').remove();
     }
   });
+})
+
+$('.movie-info, .movie-table-container').on('click', 'button.trailer-btn', function(event) {
+  event.preventDefault();
+  var query = $(this).attr('query');
+  $.get(TRAILER_API_URL + query + "&count=10", function (dataXML) {
+    var trailer = $.parseXML(dataXML);
+    var $embeds = $($(trailer).find('embed'));
+    var vid_arr = $.map($embeds, function(embed) {
+    	return $(embed).text();
+    })
+    $.fancybox(vid_arr);
+  })
 })
 
 $MOVIETABLECONTAINER.on('click', 'img', function(event) {
@@ -197,13 +211,13 @@ function makeMovieInfo(obj) {
   var $info_container = $('<div></div>');
   $info_container.addClass("info-container");
   var $title = $("<p>" + obj.Title + "</p>");
-  var $info = $(makeRatingImgText(obj)+ "<span " + makeMetaRatingText(obj) + "</span><p class='imdb-rating'>" + obj.imdbRating + "</p></span><span>Year: " + obj.Year + "</span><span>&nbsp&nbsp&nbsp&nbspRuntime: " + obj.Runtime + "</span>");
+  var $info = $(makeRatingImgText(obj) + "<button class='trailer-btn btn btn-sm btn-default' query='" + obj.Title.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(" ").join("-") + "'>View clips</button><span " + makeMetaRatingText(obj) + "</span><p class='imdb-rating'>" + obj.imdbRating + "</p></span><span>&nbsp" + obj.Year + "</span><span>&nbsp&nbsp&nbsp" + obj.Runtime + "</span>");
   $title.addClass("title");
   var $director = $("<p>Director: " + obj.Director + "</p>");
   var $plot = $("<p>" + obj.Plot + "</p>");
   var $add_button = $("<button>Add to my list</button>");
   $add_button.addClass("add-button btn btn-lg btn-success pull-right");
-  
+
   var $poster = $("<img src='" + obj.Poster + "'></img>");
   $poster.addClass("pull-left");
   $info_container.append($poster);
@@ -222,7 +236,7 @@ function makeTableHeader() {
   var $table= $("<table></table>");
   $table.addClass("table table-striped");
   var $header_row = $("<tr></tr>");
-  var $header_elements = $("<th></th><th>Title</th><th>Year</th><th>Rating</th><th>Metascore</th><th>imdb</th><th></th>");
+  var $header_elements = $("<th></th><th>Title</th><th>Year</th><th>Rating</th><th>Clips</th><th>Metascore</th><th>imdb</th><th></th>");
   $header_row.append($header_elements);
   $table.append($header_row);
   return $table;
@@ -235,11 +249,14 @@ function makeTableRow(obj, id) {
   obj.Poster === "N/A" ? $poster_td = $("<td><img src='" + "https://www.utopolis.lu/bundles/utopoliscommon/images/movies/movie-placeholder.jpg" + "'></td>") : $poster_td = $("<td><img src='" + obj.Poster + "'></src>");
   var other_rows = "<td>" + obj.Title + "</td><td>" + obj.Year + "</td><td>";
   other_rows += makeRatingImgText(obj);
-  other_rows += "</td><td><p " + makeMetaRatingText(obj) + "</p></td>";
+  other_rows += "</td>"
+  other_rows += "<td><button class='trailer-btn' query='" + obj.Title.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(" ").join("-") + "'>View</button>"
+  other_rows += "<td><p " + makeMetaRatingText(obj) + "</p></td>";
   other_rows += "<td><p class='imdb-rating'>" + obj.imdbRating + "</p></td>";
-  other_rows += "<td><button>Watched</button></td>";
+  other_rows += "<td><button class='watched-btn'>Watched</button></td>";
   var $other_rows = $(other_rows);
-  $other_rows.find("button").addClass("btn btn-lg btn-danger");
+  $other_rows.find("button.watched-btn").addClass("btn btn-md btn-danger");
+  $other_rows.find("button.trailer-btn").addClass("btn btn-md btn-default");
   $row.append($poster_td).append($other_rows);
   return $row;
 }
