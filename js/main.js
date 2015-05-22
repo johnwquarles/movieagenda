@@ -26,7 +26,7 @@ fb.onAuth(function (authData) {
   clearLoginForm();
 });
 
-if (window.location.pathname === "/index/") {
+if (window.location.pathname === "/moviepage-auth/index/") {
   tableLoad();
   $(".crumbs-left").append($("<p>Welcome, " + fb.getAuth().password.email.split("@")[0] + "!</p>"));
 }
