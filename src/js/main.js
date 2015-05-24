@@ -14,12 +14,21 @@ var TMDB_POSTER_BASE = "http://image.tmdb.org/t/p/w500";
 var TRAILER_API_URL = "http://crossorigin.me/http://api.traileraddict.com/?film=";
 
 fb.onAuth(function(authData) {
-	if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
-		window.location = "/resetpassword";
-	} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/index/") {
-	  window.location = "/index";
-	} else if (!authData && window.location.pathname !== "/login/"){
+  if (!authData && window.location.pathname !== "/login/"){
 	  window.location = "/login";
+  } else if (authData) {
+// THE BELOW CODE DOES NOT WORK (if at top of code) BECAUSE:
+// if you *are* on the login page and aren't logged in, the program will *still*
+// take you to the saveAuthData function, execute the function, and throw an error when it tries to read
+// the uid of null (authData is null), *halting* execution of the rest of the script.
+// Page is still usable but the submit handler for "login" hasn't been executed/applied, so it'll just
+// do the default action and refresh the page; user still isn't logged in.
+// WILL WORK AT BOTTOM OF CODE BECAUSE:
+// By the time the error is thrown and the script halts, all the handlers have already
+// been applied (this handler would be the last thing executed, after all).
+// BUT IT MAKES MUCH MORE SENSE TO USE THE ABOVE CODE, WHICH PREVENTS THE ERROR IN QUESTION.
+// } else {
+		saveAuthData(authData);
 	}
 	clearLoginForm();
 });
@@ -29,12 +38,12 @@ if (window.location.pathname === "/index/") {
 	$('.crumbs-left').append($(`<p>Welcome, ${fb.getAuth().password.email.split("@")[0]}!</p>`))
 }
 
-$('.login-page form').submit(function() {
+$('.login-page form').submit(function(event) {
+	event.preventDefault();
 	var email = $('.login-page input[type="email"]').val();
 	var password = $('.login-page input[type="password"]').val();
 
 	doLogin(email, password);
-	event.preventDefault();
 });
 
 $('.doLogout').click(function() {
@@ -100,7 +109,6 @@ function doLogin(email, password, callback) {
 		if (err) {
 			alert(err.toString());
 		} else {
-			saveAuthData(authData);
 			typeof callback === 'function' && callback(authData);
 		}
 	});
@@ -109,8 +117,14 @@ function doLogin(email, password, callback) {
 function saveAuthData (authData) {
 	$.ajax({
     method: 'PUT',
-    url: `${FIREBASE_AUTH_URL}/users/${authData.uid}/profile.json`,
+    url: `${FIREBASE_AUTH_URL}/users/${authData.uid}/profile.json?auth=${fb.getAuth().token}`,
     data: JSON.stringify(authData)
+	}).done(function() {
+		if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
+			window.location = "/resetpassword";
+		} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/index/") {
+		  window.location = "/index";
+		}
 	});
 }
 
@@ -118,8 +132,6 @@ function clearLoginForm() {
 	$('.login-page input[type="email"]').val('');
 	$('.login-page input[type="password"]').val('');
 }
-
-//tableLoad();
 
 function getSearchParams() {
   var movie_title = $TEXTFIELD.val();
