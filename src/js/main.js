@@ -1,6 +1,6 @@
-var FIREBASE_URL = "https://movieagenda.firebaseio.com/movielist.json";
-var FIREBASE_AUTH_URL = "https://movieagenda.firebaseio.com";
-var fb = new Firebase(FIREBASE_AUTH_URL);
+var FIREBASE_URL = "https://movieagenda.firebaseio.com";
+var fb = new Firebase(FIREBASE_URL);
+var movielist;
 var API_URL = "http://www.omdbapi.com/?t=";
 var $SUBMITBUTTON = $(".submit");
 var $TEXTFIELD = $(".textfield");
@@ -34,8 +34,23 @@ fb.onAuth(function(authData) {
 });
 
 if (window.location.pathname === "/index/") {
-	tableLoad();
 	$('.crumbs-left').append($(`<p>Welcome, ${fb.getAuth().password.email.split("@")[0]}!</p>`))
+  movielist = fb.child(`users/${fb.getAuth().uid}/movielist`);
+  // will add to user's table whenever a movie is added to FirebaseDB (occurs within)
+  // submit button clickhandler.
+  movielist.on('child_added', function(snapshot) {
+    addToTable(snapshot.val(), snapshot.key());
+  });
+  // will remove from user's table whenever something is deleted from FirebaseDB
+  // (occurs within delete button clickhandler) as written below:
+  movielist.on('child_removed', function(snapshot) {
+    $("[data_id='" + snapshot.key() + "']").fadeOut(500, function() {
+      $(this).closest('tr').remove();
+        if (!($('td').length)) {
+          $('table').remove();
+        }
+    });
+  });
 }
 
 $('.login-page form').submit(function(event) {
@@ -115,18 +130,30 @@ function doLogin(email, password, callback) {
 }
 
 function saveAuthData (authData) {
-	$.ajax({
-    method: 'PUT',
-    url: `${FIREBASE_AUTH_URL}/users/${authData.uid}/profile.json?auth=${fb.getAuth().token}`,
-    data: JSON.stringify(authData)
-	}).done(function() {
-		if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
+	var ref = fb.child(`users/${authData.uid}/profile`);
+	ref.set(authData, postAuthRouting(authData));
+}
+
+function postAuthRouting(authData) {
+	if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
 			window.location = "/resetpassword";
 		} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/index/") {
 		  window.location = "/index";
 		}
-	});
 }
+
+// 	$.ajax({
+//     method: 'PUT',
+//     url: `${FIREBASE_URL}/users/${authData.uid}/profile.json?auth=${fb.getAuth().token}`,
+//     data: JSON.stringify(authData)
+// 	}).done(function() {
+// 		if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
+// 			window.location = "/resetpassword";
+// 		} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/index/") {
+// 		  window.location = "/index";
+// 		}
+// 	});
+// }
 
 function clearLoginForm() {
 	$('.login-page input[type="email"]').val('');
@@ -172,12 +199,12 @@ $MOVIEINFO.on('click', '.add-button', function(event) {
 $MOVIETABLECONTAINER.on('click', 'button.watched-btn', function(event) {
   event.preventDefault();
   deleteFromFirebase($(this).closest('tr').attr('data_id'));
-  $(this).closest('tr').fadeOut(500, function() {
-    $(this).closest('tr').remove();
-    if (!($('td').length)) {
-      $('table').remove();
-    }
-  });
+  // $(this).closest('tr').fadeOut(500, function() {
+  //   $(this).closest('tr').remove();
+  //   if (!($('td').length)) {
+  //     $('table').remove();
+  //   }
+  // });
 })
 
 $('.movie-info, .movie-table-container').on('click', 'button.trailer-btn', function(event) {
@@ -196,8 +223,11 @@ $('.movie-info, .movie-table-container').on('click', 'button.trailer-btn', funct
 $MOVIETABLECONTAINER.on('click', 'img', function(event) {
   event.preventDefault();
   var id = $(this).closest('tr').attr('data_id');
-  var token = fb.getAuth().token;
-  $.get(`${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist/${id}.json?auth=${token}`, reClick, "jsonp");
+  movielist.child(id).once("value", function(obj) {
+  	reClick(obj.val());
+  })
+//   var token = fb.getAuth().token;
+//   $.get(`${FIREBASE_URL}/users/${fb.getAuth().uid}/movielist/${id}.json?auth=${token}`, reClick, "jsonp");
 })
 
 // reClick is for reloading stored movies into the movie info view; don't need to rewrite the poster url.
@@ -304,21 +334,25 @@ function makeRatingImgText(obj) {
 }
 
 function writeToFirebase(obj) {
-  $.post(`${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist.json?auth=${fb.getAuth().token}`, JSON.stringify(obj), function(response) {
-    obj.data_id = response.name;
-    addToTable(obj);
-  })
+  var newPush = movielist.push(obj);
+  obj.data_id = newPush.key();
+
+  //$.post(`${FIREBASE_URL}/users/${fb.getAuth().uid}/movielist.json?auth=${fb.getAuth().token}`, JSON.stringify(obj), function(response) {
+  //  obj.data_id = response.name;
+  //})
 }
 
 function deleteFromFirebase(id) {
-  var deleteUrl = `${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist/${id}.json?auth=${fb.getAuth().token}`;
-  $.ajax({url: deleteUrl, type: 'DELETE'});
+  movielist.child(id).set(null);
+
+  // var deleteUrl = `${FIREBASE_URL}/users/${fb.getAuth().uid}/movielist/${id}.json?auth=${fb.getAuth().token}`;
+  // $.ajax({url: deleteUrl, type: 'DELETE'});
 }
 
-function tableLoad() {
-  $.get(`${FIREBASE_AUTH_URL}/users/${fb.getAuth().uid}/movielist.json?auth=${fb.getAuth().token}`, function(db_data) {
-    db_data && _(db_data).forEach(function(value, key) {
-      addToTable(value, key);
-    }).value();
-  })
-}
+//function tableLoad() {
+//  $.get(`${FIREBASE_URL}/users/${fb.getAuth().uid}/movielist.json?auth=${fb.getAuth().token}`, function(db_data) {
+//    db_data && _(db_data).forEach(function(value, key) {
+//      addToTable(value, key);
+//    }).value();
+//  })
+//}
