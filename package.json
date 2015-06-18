@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "grunt build-dev",
     "start": "grunt serve",
-    "deploy": "grunt build; ./deploy.sh"
+    "deploy": "grunt build && s3cmd sync public s3://sampleapp.johnwquarles.com -P --delete-removed"
   },
   "repository": {
     "type": "git",
