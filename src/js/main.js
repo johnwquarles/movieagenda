@@ -33,7 +33,7 @@ fb.onAuth(function(authData) {
 	clearLoginForm();
 });
 
-if (window.location.pathname === "/index/") {
+if (window.location.pathname === "/table/") {
 	$('.crumbs-left').append($(`<p>Welcome, ${fb.getAuth().password.email.split("@")[0]}!</p>`))
   movielist = fb.child(`users/${fb.getAuth().uid}/movielist`);
   // will add to user's table whenever a movie is added to FirebaseDB (occurs within)
@@ -137,8 +137,8 @@ function saveAuthData (authData) {
 function postAuthRouting(authData) {
 	if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
 			window.location = "/resetpassword";
-		} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/index/") {
-		  window.location = "/index";
+		} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/table/") {
+		  window.location = "/table";
 		}
 }
 
@@ -149,8 +149,8 @@ function postAuthRouting(authData) {
 // 	}).done(function() {
 // 		if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
 // 			window.location = "/resetpassword";
-// 		} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/index/") {
-// 		  window.location = "/index";
+// 		} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/table/") {
+// 		  window.location = "/table";
 // 		}
 // 	});
 // }
