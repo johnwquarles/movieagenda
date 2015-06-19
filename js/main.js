@@ -17,7 +17,7 @@ var TRAILER_API_URL = "http://crossorigin.me/http://api.traileraddict.com/?film=
 
 fb.onAuth(function (authData) {
   if (!authData && window.location.pathname !== "/login/") {
-    window.location = "/login";
+    window.location.pathname = "/login";
   } else if (authData) {
     // THE BELOW CODE DOES NOT WORK (if at top of code) BECAUSE:
     // if you *are* on the login page and aren't logged in, the program will *still*
@@ -138,9 +138,9 @@ function saveAuthData(authData) {
 
 function postAuthRouting(authData) {
   if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
-    window.location = "/resetpassword";
+    window.location.pathname = "/resetpassword";
   } else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/table/") {
-    window.location = "/table";
+    window.location.pathname = "/table";
   }
 }
 
