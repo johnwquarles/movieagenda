@@ -17,7 +17,7 @@ var TRAILER_API_URL = "http://crossorigin.me/http://api.traileraddict.com/?film=
 
 fb.onAuth(function (authData) {
   if (!authData && window.location.pathname !== "moviepage-auth/login/") {
-    window.location = "/moviepage-auth/login";
+    window.location = "quarl.es/moviepage-auth/login";
   } else if (authData) {
     // THE BELOW CODE DOES NOT WORK (if at top of code) BECAUSE:
     // if you *are* on the login page and aren't logged in, the program will *still*
