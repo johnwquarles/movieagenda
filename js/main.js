@@ -16,7 +16,7 @@ var TMDB_POSTER_BASE = "http://image.tmdb.org/t/p/w500";
 var TRAILER_API_URL = "http://crossorigin.me/http://api.traileraddict.com/?film=";
 
 fb.onAuth(function (authData) {
-  if (!authData && window.location.pathname !== "moviepage-auth/login/") {
+  if (!authData && window.location.pathname !== "/moviepage-auth/login/") {
     window.location.pathname = "moviepage-auth/login";
   } else if (authData) {
     // THE BELOW CODE DOES NOT WORK (if at top of code) BECAUSE:
@@ -35,7 +35,7 @@ fb.onAuth(function (authData) {
   clearLoginForm();
 });
 
-if (window.location.pathname === "moviepage-auth/table/") {
+if (window.location.pathname === "/moviepage-auth/table/") {
   $(".crumbs-left").append($("<p>Welcome, " + fb.getAuth().password.email.split("@")[0] + "!</p>"));
   movielist = fb.child("users/" + fb.getAuth().uid + "/movielist");
   // will add to user's table whenever a movie is added to FirebaseDB (occurs within)
@@ -137,9 +137,9 @@ function saveAuthData(authData) {
 }
 
 function postAuthRouting(authData) {
-  if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "moviepage-auth/resetpassword/") {
+  if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/moviepage-auth/resetpassword/") {
     window.location.pathname = "moviepage-auth/resetpassword";
-  } else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "moviepage-auth/table/") {
+  } else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/moviepage-auth/table/") {
     window.location.pathname = "moviepage-auth/table";
   }
 }
