@@ -14,8 +14,8 @@ var TMDB_POSTER_BASE = "http://image.tmdb.org/t/p/w500";
 var TRAILER_API_URL = "http://crossorigin.me/http://api.traileraddict.com/?film=";
 
 fb.onAuth(function(authData) {
-  if (!authData && window.location.pathname !== "/login/"){
-	  window.location = "/login";
+  if (!authData && window.location.pathname !== "/movieagenda/login/"){
+	  window.location.pathname = "movieagenda/login/";
   } else if (authData) {
 // THE BELOW CODE DOES NOT WORK (if at top of code) BECAUSE:
 // if you *are* on the login page and aren't logged in, the program will *still*
@@ -33,7 +33,7 @@ fb.onAuth(function(authData) {
 	clearLoginForm();
 });
 
-if (window.location.pathname === "/table/") {
+if (window.location.pathname === "/movieagenda/table/") {
 	$('.crumbs-left').append($(`<p>Welcome, ${fb.getAuth().password.email.split("@")[0]}!</p>`))
   movielist = fb.child(`users/${fb.getAuth().uid}/movielist`);
   // will add to user's table whenever a movie is added to FirebaseDB (occurs within)
@@ -135,10 +135,10 @@ function saveAuthData (authData) {
 }
 
 function postAuthRouting(authData) {
-	if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/resetpassword/") {
-			window.location = "/resetpassword";
-		} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/table/") {
-		  window.location = "/table";
+	if (authData && authData.password.isTemporaryPassword && window.location.pathname !== "/movieagenda/resetpassword/") {
+			window.location.pathname = "movieagenda/resetpassword/";
+		} else if (authData && !authData.password.isTemporaryPassword && window.location.pathname !== "/movieagenda/table/") {
+		  window.location.pathname = "movieagenda/table/";
 		}
 }
 
