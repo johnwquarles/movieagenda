@@ -207,18 +207,17 @@ $MOVIETABLECONTAINER.on('click', 'button.watched-btn', function(event) {
   // });
 })
 
-$('.movie-info, .movie-table-container').on('click', 'button.trailer-btn', function(event) {
+$(".movie-info, .movie-table-container").on("click", "button.trailer-btn", function (event) {
   event.preventDefault();
-  var query = $(this).attr('query');
+  var query = $(this).attr("query");
   $.get(TRAILER_API_URL + query + "&count=10", function (dataXML) {
-    var trailer = $.parseXML(dataXML);
-    var $embeds = $($(trailer).find('embed'));
-    var vid_arr = $.map($embeds, function(embed) {
-    	return $(embed).text();
-    })
+    var $embeds = $(dataXML).find("embed");
+    var vid_arr = $.map($embeds, function (embed) {
+      return $(embed).text();
+    });
     $.fancybox(vid_arr);
-  })
-})
+  });
+});
 
 $MOVIETABLECONTAINER.on('click', 'img', function(event) {
   event.preventDefault();
