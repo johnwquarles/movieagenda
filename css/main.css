@@ -242,9 +242,8 @@ table th {
   padding-left: 160px; }
 
 body {
-  background-image: url("../images/background.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed; }
+  background: url("../images/background.jpg") no-repeat center center fixed;
+  background-size: cover; }
 
 .movie-info, .forms-wrapper {
   background-color: white;
